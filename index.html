@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Canvas experiment</title>
+    <script type="application/javascript">
+        function createFlag() {
+            const canvas = document.getElementById("canvas");
+            if (canvas.getContext) {
+                const ctx = canvas.getContext("2d");
+
+                const baseSize = 300;
+                const [width, height] = getFlagSize(baseSize);
+                ctx.canvas.width = width;
+                ctx.canvas.height = height;
+                console.log("=========================");
+                console.log(width + "w/" + height + "h");
+                console.log("=========================");
+                const colorNbr = Math.max(1, gaussianRandom(1, 8));
+                const colorPalette = getColorPalette(colorNbr);
+                var bandsPositions = drawBands(ctx, width, height, colorPalette);
+                for (let _ = 0; _ < randint(0, 5); _++) {
+                    var objectPositions = drawObject(ctx, width, height, colorPalette, bandsPositions);
+                }
+                createOutline(ctx, width, height);
+            }
+        }
+    </script>
+</head>
+
+<body onload="createFlag();">
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+    <script type='text/javascript' src='./randomUtils.js'></script>
+    <script type='text/javascript' src='./utils.js'></script>
+    <script type='text/javascript' src='./colorUtils.js'></script>
+    <script type='text/javascript' src='./drawUtils.js'></script>
+    <script type='text/javascript' src='./bands.js'></script>
+</body>
+
+</html>
