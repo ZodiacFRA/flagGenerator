@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Canvas experiment</title>
+    <title>Flag generator</title>
     <script type="application/javascript">
         function createFlag() {
             const canvas = document.getElementById("canvas");
@@ -19,10 +19,13 @@
                 console.log("=========================");
                 const colorNbr = Math.max(1, gaussianRandom(1, 8));
                 const colorPalette = getColorPalette(colorNbr);
+                console.log("=========================");
                 var bandsPositions = drawBands(ctx, width, height, colorPalette);
-                for (let _ = 0; _ < randint(0, 5); _++) {
+                console.log("=========================");
+                for (let _ = 0; _ < randint(0, 3); _++) {
                     var objectPositions = drawObject(ctx, width, height, colorPalette, bandsPositions);
                 }
+                console.log("=========================");
                 createOutline(ctx, width, height);
             }
         }
@@ -34,6 +37,7 @@
     <script type='text/javascript' src='./randomUtils.js'></script>
     <script type='text/javascript' src='./utils.js'></script>
     <script type='text/javascript' src='./colorUtils.js'></script>
+    <script type='text/javascript' src='./star.js'></script>
     <script type='text/javascript' src='./drawUtils.js'></script>
     <script type='text/javascript' src='./bands.js'></script>
 </body>

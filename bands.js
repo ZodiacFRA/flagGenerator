@@ -1,5 +1,4 @@
-function drawSingleBandPass(ctx, width, height, colorPalette, bandsPositions) {
-    const bandNbr = Math.max(0, gaussianRandom(-1, 7));
+function drawSingleBandPass(ctx, width, height, colorPalette, bandNbr, bandsPositions) {
     const is_vertical = Math.random() < 0.5;
     var bandsColor = [...colorPalette];
     if (bandNbr > colorPalette.length) {
@@ -33,12 +32,15 @@ function drawSingleBandPass(ctx, width, height, colorPalette, bandsPositions) {
 }
 
 function drawBands(ctx, width, height, colorPalette) {
+    var totalBandNbr = Math.max(0, gaussianRandom(-1, 9));
+    var firstPassBandNbr = gaussianRandom(0, totalBandNbr);
+    console.log(totalBandNbr + " total bands: " + firstPassBandNbr, totalBandNbr - firstPassBandNbr);
     var bandsPositions = [];
-    drawSingleBandPass(ctx, width, height, colorPalette, bandsPositions);
+    drawSingleBandPass(ctx, width, height, colorPalette, firstPassBandNbr, bandsPositions);
     var superpositionColorPalette = [...colorPalette]
     for (let i = 0; i < colorPalette.length * 2; i++) {
         superpositionColorPalette.push([0, 0, 0, 0]);
     }
-    drawSingleBandPass(ctx, width, height, superpositionColorPalette, bandsPositions);
+    drawSingleBandPass(ctx, width, height, superpositionColorPalette, totalBandNbr - firstPassBandNbr, bandsPositions);
     return bandsPositions;
 }
