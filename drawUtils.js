@@ -5,7 +5,7 @@ function createOutline(ctx, width, height) {
 
 function drawObject(ctx, width, height, colorPalette, bandsPositions) {
     // 0 = nothing, 1 = circle, 2 = triangle
-    var r = randint(0, 2);
+    var r = randint(0, 3);
     r = 10;
     if (r == 0) {
         return;
@@ -55,7 +55,7 @@ function drawTriangle(ctx, width, height, color, bandsPositions) {
     var left = 0;
     var right = width / 2;
     var top = 0;
-    var bottom = height;
+    var bottom = height / 2;
 
     bandsPositions.forEach(element => {
         if (element["is_vertical"] && element["bandPositions"].length > 1) {
@@ -87,7 +87,7 @@ function drawStar(ctx, width, height, color, bandsPositions) {
     var left = 0;
     var right = width / 2;
     var top = 0;
-    var bottom = height;
+    var bottom = height / 2;
 
     bandsPositions.forEach(element => {
         if (element["is_vertical"] && element["bandPositions"].length > 1) {
@@ -102,7 +102,38 @@ function drawStar(ctx, width, height, color, bandsPositions) {
             bottom = element["bandPositions"][bottomIdx] * element["bandSize"];
         }
     });
+
+    var centerX = (left + right) / 2;
+    var centerY = (top + bottom) / 2
+    var scale = Math.min(centerX, centerY);
+    var p_out = [];
+    var p_in = [];
+    var arms_nbr = gaussianRandom(3, 7);
+    var insideRotation = gaussianRandom(90, 270);
+    var inside_length = gaussianRandom(20, 50);
+    console.log(arms_nbr, insideRotation, inside_length)
+    var rotation = -5 * arms_nbr;
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(rotation * Math.PI / 180);
     ctx.fillStyle = getRGBA_object(color);
-    var path = new Path2D("m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z");
-    ctx.fill(path);
+
+    for (var i = 0; i < arms_nbr; i++) {
+        var x = Math.cos(i / arms_nbr * Math.PI * 2) * scale;
+        var y = Math.sin(i / arms_nbr * Math.PI * 2) * scale;
+        p_out.push([x, y]);
+
+        var x = Math.cos((i + (insideRotation / 360)) / arms_nbr * Math.PI * 2) * scale * (inside_length / 100);
+        var y = Math.sin((i + (insideRotation / 360)) / arms_nbr * Math.PI * 2) * scale * (inside_length / 100);
+        p_in.push([x, y]);
+    }
+    ctx.beginPath();
+    ctx.moveTo(p_out[0][0], p_out[0][1]);
+    for (var i = 0; i < arms_nbr; i++) {
+        ctx.lineTo(p_out[i][0], p_out[i][1]);
+        ctx.lineTo(p_in[i][0], p_in[i][1]);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
 }
