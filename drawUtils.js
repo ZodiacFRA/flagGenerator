@@ -6,7 +6,6 @@ function createOutline(ctx, width, height) {
 function drawObject(ctx, width, height, colorPalette, bandsPositions) {
     // 0 = nothing, 1 = circle, 2 = triangle
     var r = randint(0, 3);
-    r = 10;
     if (r == 0) {
         return;
     } else if (r == 1) {
@@ -109,10 +108,13 @@ function drawStar(ctx, width, height, color, bandsPositions) {
     var p_out = [];
     var p_in = [];
     var arms_nbr = gaussianRandom(3, 7);
-    var insideRotation = gaussianRandom(90, 270);
-    var inside_length = gaussianRandom(20, 50);
-    console.log(arms_nbr, insideRotation, inside_length)
-    var rotation = -5 * arms_nbr;
+    arms_nbr = 5;
+    // var insideRotation = gaussianRandom(90, 270);
+    var insideRotation = 180;
+    // var inside_length = gaussianRandom(20, 50);
+    var inside_length = 38;
+    var rotation = -17;
+    console.log(arms_nbr, rotation, inside_length)
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(rotation * Math.PI / 180);
